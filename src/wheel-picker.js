@@ -4,7 +4,7 @@
  * */
 
 import React from "react"
-import { requireNativeComponent } from "react-native"
+import { requireNativeComponent,PixelRatio } from "react-native"
 
 // eslint-disable-next-line no-use-before-define
 const WheelPickerView = requireNativeComponent( "WheelPicker", WheelPicker );
@@ -29,6 +29,7 @@ type Props = {
     itemTextAlign?: 'left' | 'center' | 'right',
     selectedItemPosition?: number,
     backgroundColor?: string,
+    allowFontScaling?: boolean
 }
 
 type State = { selectedItemPosition: number }
@@ -59,10 +60,22 @@ class WheelPicker extends React.Component<Props, State> {
         this.setState( { selectedItemPosition: nextProps.selectedItemPosition } )
     }
 
+    getItemTextSize = ()=>{
+        let {allowFontScaling,itemTextSize} = this.props
+        if(itemTextSize && allowFontScaling ){
+            itemTextSize =  PixelRatio.getFontScale() * PixelRatio.get() * itemTextSize
+        }
+        return itemTextSize
+    }
+
     render() {
+        const properties = {
+            ...this.props,
+            itemTextSize:this.getItemTextSize()
+        }
         return (
             <WheelPickerView
-                { ...this.props }
+                { ...properties }
                 onChange={ this.onItemSelected }
                 selectedItemPosition={ this.state.selectedItemPosition }
             />

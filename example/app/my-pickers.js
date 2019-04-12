@@ -25,6 +25,7 @@ export default class MyPickers extends Component {
                     isCurved
                     data={ wheelPickerData }
                     visibleItemCount={5}
+                    allowFontScaling={true}
                     style={ styles.wheelPicker }/>
                 <DatePicker
                     date={ now }

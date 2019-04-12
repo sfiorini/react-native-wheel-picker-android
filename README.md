@@ -161,6 +161,7 @@ import { WheelPicker } from '@delightfulstudio/react-native-wheel-picker-android
 | itemTextAlign | 'center' | enum('left', 'center', 'right') | Wheel Picker's items text alignment |
 | selectedItemPosition | null | `number` | Select current item position |
 | backgroundColor | transparent | `string` | Wheel Picker background color  |
+| allowFontScaling | false | `bool` | Font scaling based on Pixel Ratio  |
 
 ### data
 

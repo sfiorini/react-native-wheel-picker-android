@@ -8,24 +8,15 @@ import styles from "./styles";
 import DateColumns from "./date-columns";
 import { normalizeDate, normalizeMinMaxDates } from "./utils";
 
-const dateSetters = {
-    "year": "setFullYear",
-    "month": "setMonth",
-    "date": "setDate",
-    "hours": "setHours",
-    "minutes": "setMinutes"
-};
-
 export default class DatePicker extends PureComponent {
-
     static propTypes = {
-        mode: PropTypes.oneOf( [ "date", "time", "datetime" ] ).isRequired,
-        date: PropTypes.instanceOf( Date ),
+        mode: PropTypes.oneOf(["date", "time", "datetime"]).isRequired,
+        date: PropTypes.instanceOf(Date),
         // TODO: initialDate
         onDateChange: PropTypes.func.isRequired,
-        minimumDate: PropTypes.instanceOf( Date ),
-        maximumDate: PropTypes.instanceOf( Date ),
-        minuteInterval: PropTypes.oneOf( [ 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 ] ),
+        minimumDate: PropTypes.instanceOf(Date),
+        maximumDate: PropTypes.instanceOf(Date),
+        minuteInterval: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30]),
         styles: PropTypes.object,
         locale: PropTypes.string,
         todayTitle: PropTypes.string
@@ -37,13 +28,16 @@ export default class DatePicker extends PureComponent {
         minuteInterval: 1
     };
 
+    constructor(props, ...args) {
+        super(props, ...args);
 
-    constructor( props, ...args ) {
-        super( props, ...args );
-
-        let date = props.date && new Date( props.date.valueOf() ) || new Date();
-        const { minimumDate, maximumDate } = normalizeMinMaxDates( date, props.minimumDate, props.maximumDate );
-        date = normalizeDate( date, minimumDate, maximumDate );
+        let date = (props.date && new Date(props.date.valueOf())) || new Date();
+        const { minimumDate, maximumDate } = normalizeMinMaxDates(
+            date,
+            props.minimumDate,
+            props.maximumDate
+        );
+        date = normalizeDate(date, minimumDate, maximumDate);
 
         this.state = {
             date,
@@ -53,52 +47,50 @@ export default class DatePicker extends PureComponent {
             dateOnly: props.mode === "date"
         };
 
-        this.styles = styles( props.styles );
+        this.styles = styles(props.styles);
     }
 
     render() {
         return (
-            <View style={ [ this.styles.container, this.props.style ] }>
-                { this.renderDate() }
-                { this.renderTime() }
+            <View style={[this.styles.container, this.props.style]}>
+                {this.renderDate()}
+                {this.renderTime()}
             </View>
-        )
+        );
     }
 
     renderDate() {
         const { date, minimumDate, maximumDate, dateOnly, timeOnly } = this.state;
-        if ( timeOnly )
-            return null;
+        if (timeOnly) return null;
 
         const { locale, todayTitle } = this.props;
         return (
             <DateColumns
-                dateOnly={ dateOnly }
-                date={ date }
-                minimumDate={ minimumDate }
-                maximumDate={ maximumDate }
-                onChange={ this.onChange }
-                styles={ this.styles }
-                locale={ locale }
-                todayTitle={ todayTitle }
+                dateOnly={dateOnly}
+                date={date}
+                minimumDate={minimumDate}
+                maximumDate={maximumDate}
+                onChange={this.onChange}
+                styles={this.styles}
+                locale={locale}
+                todayTitle={todayTitle}
             />
         );
     }
 
     renderTime() {
         const { date, dateOnly, timeOnly } = this.state;
-        if ( dateOnly )
-            return null;
+        if (dateOnly) return null;
 
         const { locale, minuteInterval } = this.props;
         return (
             <TimeColumns
-                timeOnly={ timeOnly }
-                date={ date }
-                minuteInterval={ minuteInterval }
-                onChange={ this.onChange }
-                styles={ this.styles }
-                locale={ locale }
+                timeOnly={timeOnly}
+                date={date}
+                minuteInterval={minuteInterval}
+                onChange={this.onChange}
+                styles={this.styles}
+                locale={locale}
             />
         );
     }
@@ -107,21 +99,19 @@ export default class DatePicker extends PureComponent {
         const { minimumDate, maximumDate } = this.state;
         let date = this.state.date;
 
-        Object.keys( dateSetters )
-            .forEach( key => {
-                const value = change[ key ];
-                if ( value !== undefined ) {
-                    date[ dateSetters[ key ] ]( value );
-                }
-            } )
-        ;
+        if (change.year && change.month && change.date) {
+            date.setFullYear(change.year, change.month, change.date);
+        }
 
-        date = normalizeDate( date, minimumDate, maximumDate );
+        if (change.hours && change.minutes) {
+            date.setHours(change.hours);
+            date.setMinutes(change.minutes);
+        }
 
-        if ( date !== this.state.date )
-            this.setState( { date } );
+        date = normalizeDate(date, minimumDate, maximumDate);
 
-        this.props.onDateChange( new Date( date.valueOf() ) );
+        if (date !== this.state.date) this.setState({ date });
+
+        this.props.onDateChange(new Date(date.valueOf()));
     };
-
 }

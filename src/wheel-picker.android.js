@@ -4,10 +4,10 @@
  * */
 
 import React from "react"
-import { requireNativeComponent,PixelRatio } from "react-native"
+import { requireNativeComponent, PixelRatio } from "react-native"
 
 // eslint-disable-next-line no-use-before-define
-const WheelPickerView = requireNativeComponent( "WheelPicker", WheelPicker );
+const WheelPickerView = requireNativeComponent("WheelPicker", WheelPicker);
 
 type Props = {
     onItemSelected: any => void,
@@ -46,24 +46,29 @@ class WheelPicker extends React.Component<Props, State> {
         }
     }
 
-    onItemSelected = ( event: any ) => {
-        if ( this.props.onItemSelected ) {
-            this.props.onItemSelected( event.nativeEvent )
+    onItemSelected = (event: any) => {
+        if (this.props.onItemSelected) {
+            this.props.onItemSelected(event.nativeEvent)
         }
     }
 
     componentDidMount() {
-        this.setState( { selectedItemPosition: this.props.selectedItemPosition } )
+        this.setState({ selectedItemPosition: this.props.selectedItemPosition })
     }
 
-    componentWillReceiveProps( nextProps: Props ) {
+    /*componentWillReceiveProps( nextProps: Props ) {
         this.setState( { selectedItemPosition: nextProps.selectedItemPosition } )
+    }*/
+    static getDerivedStateFromProps(props: Props) {
+        return {
+            selectedItemPosition: props.selectedItemPosition
+        }
     }
 
-    getItemTextSize = ()=>{
-        let {allowFontScaling,itemTextSize} = this.props
-        if(itemTextSize && allowFontScaling ){
-            itemTextSize =  PixelRatio.getFontScale() * PixelRatio.get() * itemTextSize
+    getItemTextSize = () => {
+        let { allowFontScaling, itemTextSize } = this.props
+        if (itemTextSize && allowFontScaling) {
+            itemTextSize = PixelRatio.getFontScale() * PixelRatio.get() * itemTextSize
         }
         return itemTextSize
     }
@@ -71,13 +76,13 @@ class WheelPicker extends React.Component<Props, State> {
     render() {
         const properties = {
             ...this.props,
-            itemTextSize:this.getItemTextSize()
+            itemTextSize: this.getItemTextSize()
         }
         return (
             <WheelPickerView
-                { ...properties }
-                onChange={ this.onItemSelected }
-                selectedItemPosition={ this.state.selectedItemPosition }
+                {...properties}
+                onChange={this.onItemSelected}
+                selectedItemPosition={this.state.selectedItemPosition}
             />
         )
     }

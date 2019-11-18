@@ -1,15 +1,17 @@
-import WheelPicker from "../wheel-picker";
+import WheelPicker from "../wheel-picker.android";
 import React from "react";
 
-export const titles = array => array.map( item => item.title );
+export const titles = array => array.map(item => item.title);
 
-export default ( { list, ...props } ) => (
+export default ({ list, ...props }) => (
     <WheelPicker
-        data={ titles( list ) }
+        data={titles(list)}
         isAtmospheric
         isCurved
-        selectedItemTextColor={ "black" }
-        visibleItemCount={7}
-        { ...props }
+        {...props}
+        itemTextSize={100}
+        itemTextColor={"white"}
+        selectedItemTextColor={"white"}
+        visibleItemCount={5}
     />
 );

@@ -80,6 +80,13 @@ public class WheelPickerManager extends SimpleViewManager<WheelPicker>  implemen
             wheelPicker.setAtmospheric(isAtmospheric);
         }
     }
+    
+    @ReactProp(name = "selectedItemTextColor")
+    public void setSelectedItemTextColor(WheelPicker wheelPicker, String selectedItemTextColor) {
+        if (wheelPicker!=null){
+            wheelPicker.setSelectedItemTextColor(Color.parseColor(selectedItemTextColor));
+        }
+    }
 
     //Dodane
 

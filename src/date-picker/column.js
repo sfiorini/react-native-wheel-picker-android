@@ -9,9 +9,14 @@ export default ({ list, ...props }) => (
         isAtmospheric
         isCurved
         {...props}
-        itemTextSize={100}
-        itemTextColor={"white"}
-        selectedItemTextColor={"white"}
-        visibleItemCount={5}
+        itemTextSize={180}
+        itemTextFontFamily="Roboto-Bold"
+        backgroundColor="white"
+        minuteInterval={15}
+        isCurved={true}
+        selectedItemTextColor="#B9CA00"
+        visibleItemCount={3}
+        //renderIndicator={true}
+        indicatorColor="#B9CA00"
     />
 );

@@ -1,24 +1,24 @@
 import { PixelRatio, StyleSheet } from "react-native";
 
-const scaleStyleProp = ( style, name, scale ) => {
-    if ( style[ name ] )
-        style[ name ] = style[ name ] * scale;
+const scaleStyleProp = (style, name, scale) => {
+    if (style[name])
+        style[name] = style[name] * scale;
 };
 
-const scaleStyle = ( style, scale ) => {
-    if ( scale === 1 )
+const scaleStyle = (style, scale) => {
+    if (scale === 1)
         return;
 
 
     [
         "width",
         "height"
-    ].forEach( name => scaleStyleProp( style, name, scale ) );
+    ].forEach(name => scaleStyleProp(style, name, scale));
 
     [
         "margin",
         "padding"
-    ].forEach( name => {
+    ].forEach(name => {
         [
             "",
             "Horizontal",
@@ -27,12 +27,12 @@ const scaleStyle = ( style, scale ) => {
             "Vertical",
             "Top",
             "Bottom"
-        ].forEach( specifier => scaleStyleProp( style, `${name}${specifier}`, scale ) );
-    } );
+        ].forEach(specifier => scaleStyleProp(style, `${name}${specifier}`, scale));
+    });
 
 };
 
-export default ( styles ) => {
+export default (styles) => {
     const sizeScale = PixelRatio.getFontScale();
     const combinedStyles = {
         container: {
@@ -42,7 +42,7 @@ export default ( styles ) => {
         },
 
         picker: {
-            height: 160
+            height: 220
         },
 
         date: {
@@ -50,15 +50,15 @@ export default ( styles ) => {
         },
 
         hours: {
-            width: 35
+            width: 80
         },
 
         minutes: {
-            width: 35
+            width: 80
         },
 
         gap: {
-            marginLeft: 10
+            marginLeft: 20
         },
 
         AM: {
@@ -68,14 +68,14 @@ export default ( styles ) => {
     };
 
     Object
-        .keys( combinedStyles )
-        .forEach( key => {
-            const customStyle = styles && styles[ key ];
-            if ( customStyle )
-                Object.assign( combinedStyles[ key ], customStyle );
-            scaleStyle( combinedStyles[ key ], sizeScale );
-        } )
-    ;
+        .keys(combinedStyles)
+        .forEach(key => {
+            const customStyle = styles && styles[key];
+            if (customStyle)
+                Object.assign(combinedStyles[key], customStyle);
+            scaleStyle(combinedStyles[key], sizeScale);
+        })
+        ;
 
-    return StyleSheet.create( combinedStyles );
+    return StyleSheet.create(combinedStyles);
 }

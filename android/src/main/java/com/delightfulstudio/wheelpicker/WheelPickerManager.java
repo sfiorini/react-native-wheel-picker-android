@@ -81,13 +81,16 @@ public class WheelPickerManager extends SimpleViewManager<WheelPicker>  implemen
         }
     }
 
-    @ReactProp(name = "selectedItemTextColor")
-    public void setSelectedItemTextColor(WheelPicker wheelPicker, String selectedItemTextColor) {
+    //Dodane
+
+    /*@ReactProp(name = "indicatorWidth")
+    public void setIndicatorWidth(LoopView wheelPicker, int indicatorSize) {
         if (wheelPicker!=null){
-            wheelPicker.setSelectedItemTextColor(Color.parseColor(selectedItemTextColor));
+            wheelPicker.setIndicatorSize(indicatorSize);
         }
     }
-
+    */
+    //Koniec dodane
     @ReactProp(name = "itemSpace")
     public void setItemSpace(WheelPicker wheelPicker, int itemSpace) {
         if (wheelPicker!=null){
